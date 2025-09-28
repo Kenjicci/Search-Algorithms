@@ -1,0 +1,27 @@
+Intelligent Systems
+Cinco, Ken C.
+BSCS4-B1
+
+Part 1. Exploration and Execution
+[] Combine the codes
+[] Examine the data structures
+[] Run the script
+[] record outputs:
+
+Algorithm         |     Start Node | Goal Node | Total Cost (if applicable)
+DFS                        a            d           
+BFS                        a            d
+UCS                        a            d
+Greedy Search              Home         Library
+A*Search                   Home         Library
+
+
+Part 2. Analysis and Comparison
+
+Uninformed Search
+1. Describe the order of node visitation fo DFS and BFS. Which one is guaranteed to find the shortest path in terms of the number of steps/edges (assuming unweighted edges)?
+2. How does Uniform Cost Search (UCS) differ from BFS? Why did UCS choose the path it did, considering the costs: a->b (2), b->c (2), and b->d (5)?
+3. Which of the three uninformed algorithm (DFS, BFS, UCS) is generally considered optimal (guaranteed to find the lowest-cost path) when edge weight exists?
+
+Informed Search
+
