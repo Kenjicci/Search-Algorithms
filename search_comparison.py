@@ -72,7 +72,6 @@ def ucs(frontier, goal):
 
 # ---------------- Informed Search Algorithms ----------------
 
-
 # Graph connections (roads between places)
 graph = {
     'Home': ['School', 'Mall'],
@@ -82,14 +81,15 @@ graph = {
     'Library': []
 }
 
-# Heuristic (straight-line guess distance to Library)
+# Change this:
 heuristic = {
     'Home': 7,
     'School': 6,
-    'Mall': 8,
+    'Mall': 8, # MODIFIED VALUE
     'Park': 1,
     'Library': 0
 }
+
 
 # Road distances (for A* search g(n))
 road_costs = {
@@ -159,8 +159,6 @@ def a_star_search(current, goal, cost_so_far=0, visited=None):
 
     return visited
 
-
-
 # 3. Graph Search
 def graph_search(current, goal, visited=None):
     if visited is None:
@@ -181,6 +179,8 @@ def graph_search(current, goal, visited=None):
 
 # ---------------- MAIN PROGRAM ----------------
 start, goal = letter[0], letter[3]  # A to D
+
+print("Algorithm | Start Node | Goal Node | Path Found | Total Cost")
 
 # Run Depth-First Search
 print("DFS Path:", dfs(start, goal, [start]))

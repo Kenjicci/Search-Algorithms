@@ -1,27 +1,159 @@
 Intelligent Systems
+Search Algorithms Task 1
 Cinco, Ken C.
 BSCS4-B1
+Part 1 - Exploration and Execution
+Task 1 Setup and Run
+Combine the Codes: Combine the "Informed Search" and "Uninformed Search" code blocks into a single Python file (e.g., search_comparison.py).
+Examine the Data Structures: Review the graph, heuristic, and road_costs dictionaries for the Informed Search section. Note the difference in the graph structure (get_moves function) and cost definition (get_cost function) for the Uninformed Search section.
+Run the Script: Execute the combined Python file.
+Record Outputs: Record the search paths and costs for all five algorithms (DFS, BFS, UCS, Greedy, A*).
 
-Part 1. Exploration and Execution
-[] Combine the codes
-[] Examine the data structures
-[] Run the script
-[] record outputs:
-
-Algorithm         |     Start Node | Goal Node | Total Cost (if applicable)
-DFS                        a            d           
-BFS                        a            d
-UCS                        a            d
-Greedy Search              Home         Library
-A*Search                   Home         Library
+Recorded Outputs:
+Algorithm
+Start Node 
+Goal Node
+Path
+Total Cost
+DFS
+a
+d
+['a', 'b', 'c', 'd']
 
 
-Part 2. Analysis and Comparison
 
+
+BFS
+a 
+d
+['a', 'b', 'd']
+
+
+UCS
+a
+d
+['a', 'b', 'c', 'd']
+6
+Greedy Search
+Home
+Library
+['Home', 'Mall', 'Library’]
+6
+Library
+Home 
+Library
+[('Home', 0), ('Mall', 5), ('Library', 6)]
+6
+
+
+Part 2 Analysis and Comparison
+The Uninformed Search algorithms (DFS, BFS, UCS) use the simple graph defined by get_moves and get_cost.
 Uninformed Search
-1. Describe the order of node visitation fo DFS and BFS. Which one is guaranteed to find the shortest path in terms of the number of steps/edges (assuming unweighted edges)?
-2. How does Uniform Cost Search (UCS) differ from BFS? Why did UCS choose the path it did, considering the costs: a->b (2), b->c (2), and b->d (5)?
-3. Which of the three uninformed algorithm (DFS, BFS, UCS) is generally considered optimal (guaranteed to find the lowest-cost path) when edge weight exists?
+Describe the order of node visitation for DFS and BFS. Which one is guaranteed to find the shortest path in terms of the number of steps/edges (assuming unweighted edges)?
+In DFS, the order of node visitation focuses on exploring the first movement in get_moves() like the +1 movement and do it recursively until it reaches the end or the goal. It explores the nodes from jumping parent to child down to the descendants before backtracking, resulting in depth-first behavior. However in the BFS, the order of node visitation explores all the nodes at the same level, like visiting all children of the node before backtracking, resulting in a breadth-first behavior. 
+Based on their behavior, BFS is guaranteed to find the shortest path in terms of the number of step/s edges since it explores the nodes level by level until it reaches the goal which is earlier unlike DFS where it recursively tries to find the depth. 
+How does Uniform Cost Search (UCS) differ from BFS? Why did UCS choose the path it did, considering the costs: a->b (2), b->c (2), c->d (2), and b->d (5)?
+Although UCS behaves similarly to BFS, like exploring the breadth of the graph first, in UCS, every edge has a cost. UCS tries to find a path to reach the goal where the cost is less.
+In the code, it finds the cheapest path by:
+Listing the path
+Get moves based from the last letter of the first list in the frontier
+Sorting the cumulative cost of the edges
+Checking if a path with the lowest cost of path reaches the goal and if not
+It will recursively call the ucs() function.
+Although the path a->b->d reached the goal first, UCS sorted the list giving priority to the lowest cumulative path since a->b->c = 4 and a->b->d = 7. Then call again the ucs function until it found the  a->b->c->d with 6 cost returning it as the final answer.  
+It chose these paths a->b->c->d since the total cost of this path is 6 compared to the path a->b->d which is the total cost if 7. It has a shorter number of paths, the cost is more important for UCS. 
+Which of the three uninformed algorithms (DFS, BFS, UCS) is generally considered optimal (guaranteed to find the lowest-cost path) when edge weights exist?
+In the three uninformed algorithms, UCS is the optimal algorithm when the edge weights exist. The behavior of UCS is like the BFS but when making a decision which path to take, it prioritizes least cumulative cost. For example, even if the UCS found the goal earlier with a->b->d with the cost of 7, it still went with the a->b->c with the cost of 4 and recursively called the function until it found the goal. If it is BFS, it will go with the a->b->d despite the cost, making it less efficient than UCS when it comes to weighted edges. DFS is also not optimal since its priority is to explore one path until it reaches the end or the goal, making it costly for weighted edges. 
 
+Task 3 Compare Informed Search
+The Informed Search algorithms (Greedy, A*) use the graph of places and distances.
 Informed Search
+The path found by Greedy Best-First Search is determined solely by the heuristic (h(n)). Trace the path it took from 'Home' to 'Library'. Why did it choose 'Mall' over 'School' (if it did) based on the heuristic values?
+The path it took from ‘Home’ to ‘Library’:
+		Neighbors of Home -> School(6), Home -> Mall(2)
+		Best Neighbor of Home: Mall
+		Neighbors of Mall ->Library (1)
+		The goal was reached!
+		Path it Took: Home -> Mall -> Library
+The algorithm chooses the Mall over School since Mall has lower heuristic value, 2<6. While the total road cost would be 6, greedy best-first search prioritizes the heuristic value rather than the road coast. 
+The path for A* Search is determined by the evaluation function (f(n)=g(n)+h(n)).
+What is g(n)?
+Based on the code, the g(n) is the function that computes the cumulative cost that the path traveled along the nodes. 
+What is h(n)?
+The h(n) is the function that symbolizes the heuristic guess from a node to the goal. 
+Calculate the f(n) value for both 'School' and 'Mall' when starting from 'Home'. Based on these values, explain why A* chose the path it did.
+		Home->School
+		g(‘School’) = 2
+		h(‘School’) = 6
+		f(‘School’) = g(‘School’) + h(‘School’)
+		f(‘School’) = 2 + 6 = 8
 
+		Home->Mall
+		g(‘Mall”) = 5
+		h(‘Mall’) = 2
+		f(‘Mall’) = g(‘Mall”) + h(‘Mall’)
+		f(‘Mall’) = 5 + 2 = 7
+		
+		f(‘Mall’) < f(‘School’)
+
+The A* chose the Mall since it has lower f(n) than School. By comparing their f(n) this algorithm would choose a more efficient path which is the Mall. 	
+
+Compare the total cost of the Greedy path and the A* path. A* is generally optimal (guaranteed to find the lowest-cost path) if the heuristic is admissible. What does it mean for a heuristic to be "admissible" in this context?
+Greedy Best-First 
+The total cost of the Greedy path when we compute the heuristic cost and road would be:
+Home -> Mall -> Library
+Home -> Mall -> Library
+g(‘Mall’) = 5
+Mall -> Library 
+g(‘Library’)= 1
+g(Home -> Mall -> Library) = (5 + 1)= 6
+So 6 is the total cost of Greedy Best-First Search
+
+A* Search has the same path taken with Greedy Best-First Search, so it would  have the same computation of g(n) = 6. However, considering the heuristic values, the A* would outperform the other searches since it always opts for the optimal path considering the cumulative cost and heuristics. If the heuristic is admissible (never overestimates), A* is guaranteed not to skip the optimal path. The admissibility is exactly what makes A* always find the lowest-cost path. Being admissible means the heuristic is always less than or equal to the actual remaining cost. It can be exact, or it can underestimate, but it must never overshoot.
+
+
+
+Part 3 Critical Thinking and Modification
+
+Task 4 Modify the Heuristic. Change the heuristic value for 'Mall' from 2 to 8 in the heuristic dictionary. Rerun only the Greedy Search and A* Search.
+# Change this:
+heuristic = {
+    'Home': 7,
+    'School': 6,
+    'Mall': 8, # MODIFIED VALUE
+    'Park': 1,
+    'Library': 0
+}
+
+What is the new path and cost for Greedy Search? Explain why the path changed (or didn't change) based on the modification.
+The greedy search path became Home->School->Library with the cost of 6 ((Home->School: 2) + (School ->Library: 4) = 6 road cost). The change on the heuristic of Mall affected the path of the Greedy Search since the heuristic value of the neighbors of Home to Mall and School before is 2 and 6. Now that Mall became 8, School now has a lesser heuristic value making it the best neighbor for Home. Greedy Search First always opt for the immediate lower value of heuristics. This behavior and new heuristic value for Mall changed the path f
+What is the new path and cost for A* Search? Did its path or final cost change? Explain why A* is generally more robust to changes in the heuristic (as long as it remains admissible) compared to Greedy Search.
+The new path for A* became Home->School->Park->Library with a cost of 6 ((Home->School: 2) + (School ->Park: 2 + (Park ->Library: 2)) = 6 road cost). It became like this because the heuristic value of Mall increased:
+Old 
+Modified
+Home->School
+		g(‘School’) = 2
+		h(‘School’) = 6
+		f(‘School’) = 2 + 6 = 8
+
+Home->Mall
+		g(‘Mall”) = 5
+		h(‘Mall’) = 2
+		f(‘Mall’) = 5 + 2 = 7
+		
+		f(‘Mall’) < f(‘School’)
+Home->School
+		g(‘School’) = 2
+		h(‘School’) = 6
+		f(‘School’) = 2 + 6 = 8
+
+Home->Mall
+		g(‘Mall”) = 5
+		h(‘Mall’) = 8
+		f(‘Mall’) = 5 + 8 = 13
+		
+		f(‘School’) < f(‘Mall’)
+
+School has smaller f(n) value now that’s why A* explored this path. A* is more robust to changes when heuristic changes because it also takes into consideration the cumulative cost to reach the goal. Since Greedy searchlly solely relies on the heuristic values, if the heuristic became bigger then the next heuristic would be smaller, then greedy will easily go to the closest node but actually leads to a costly or inefficient path. Thus, A* remains superior unless the heuristic values are overestimated, leading to more exploration and costly paths. 
+Based on all your findings, briefly explain the fundamental difference between an Informed Search and an Uninformed Search algorithm.
+Uninformed search has no extra knowledge which means it blindly explores paths based on the algorithm. On the other hand, Informed Search follows a heuristic approach that makes the search more efficient. With this guide, it can reach the goal node faster with less cost than uninformed search. 
